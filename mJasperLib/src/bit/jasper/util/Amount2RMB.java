@@ -28,7 +28,7 @@ public class Amount2RMB {
         }
         Matcher matcher = AMOUNT_PATTERN.matcher(amount);
         if (!matcher.find()) {
-            throw new IllegalArgumentException("输入金额有误.");
+            throw new IllegalArgumentException("输入金额有误:" + amount);
         }
 
         String integer = matcher.group(1); // 整数部分
