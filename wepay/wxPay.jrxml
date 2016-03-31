@@ -222,14 +222,10 @@ AND t.id IN ($P!{tlist})]]>
 	</parameter>
 	<queryString>
 		<![CDATA[select d.id as id
-FROM pay_order as o,
+FROM
 tenant as t ,
 department as d
-WHERE o.tenant_id = t.id
-AND t.department_id = d.id
-and o.`status`='SUCCESS'
-AND DATEDIFF(DATE_FORMAT(o.time_end,'%Y-%m-%d'), $P{startDate}) >= 0
-AND DATEDIFF(DATE_FORMAT(o.time_end,'%Y-%m-%d'), $P{endDate}) <= 0
+WHERE t.department_id = d.id
 AND t.id IN ($P!{tList})
 GROUP BY d.id
 ORDER BY d.id]]>
@@ -427,7 +423,7 @@ ORDER BY d.id]]>
 					</crosstabTotalColumnHeader>
 				</columnGroup>
 				<measure name="feeMeasure" class="java.math.BigDecimal" calculation="Sum">
-					<measureExpression><![CDATA[$F{fee}?: 0 ]]></measureExpression>
+					<measureExpression><![CDATA[$F{fee}]]></measureExpression>
 				</measure>
 				<crosstabCell width="188" height="40">
 					<cellContents>
@@ -526,14 +522,14 @@ ORDER BY d.id]]>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="华文细黑" size="14"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{sumFee}.divide(100.0)]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{sumFee} ? $F{sumFee}.divide(100.0) : 0.00)]]></textFieldExpression>
 							</textField>
 							<textField isStretchWithOverflow="true">
 								<reportElement x="0" y="28" width="320" height="27" uuid="e17a6d8b-2cbd-4227-8f89-99d9f12245cf"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="华文细黑" size="14"/>
 								</textElement>
-								<textFieldExpression><![CDATA[(new bit.jasper.util.Amount2RMB()).convert(new DecimalFormat("#.00").format($F{sumFee}.divide(100.0)))]]></textFieldExpression>
+								<textFieldExpression><![CDATA[( $F{sumFee} ? (new bit.jasper.util.Amount2RMB()).convert(new DecimalFormat("0.00").format($F{sumFee}.divide(100.0))) : '零元' )]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
