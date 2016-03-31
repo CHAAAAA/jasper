@@ -170,20 +170,24 @@
 		<parameter name="eDate" class="java.lang.String"/>
 		<parameter name="tlist" class="java.lang.String"/>
 		<queryString>
-			<![CDATA[select SUM(o.total_fee)  as fee, t.`name` as name , d.`name` as dName
-from pay_order as o ,
-  tenant as t,
-department as d
-where o.status='SUCCESS'
-and d.id = $P{dId}
-and t.department_id = d.id
-AND o.tenant_id = t.id
-and t.id IN ($P!{tlist})
-AND DATEDIFF(DATE_FORMAT(o.time_end,'%Y-%m-%d'), $P{sDate}) >= 0
-AND DATEDIFF(DATE_FORMAT(o.time_end,'%Y-%m-%d'), $P{eDate}) <= 0
+			<![CDATA[SELECT
+  COUNT(o.total_fee) AS c,
+  SUM(o.total_fee)   AS fee,
+  t.`name`           AS name,
+  d.`name`           AS dName
+FROM (tenant AS t
+  LEFT JOIN pay_order AS o ON (t.id = o.tenant_id)
+                              AND o.status = 'SUCCESS'
+                              AND DATEDIFF(DATE_FORMAT(o.time_end, '%Y-%m-%d'), $P{sDate}) >= 0
+                              AND DATEDIFF(DATE_FORMAT(o.time_end, '%Y-%m-%d'), $P{eDate}) <= 0
+  ), department AS d
+WHERE d.id = $P{dId}
+      AND t.department_id = d.id
+      AND t.id IN ($P!{tlist})
 GROUP BY t.id
 ORDER BY t.code]]>
 		</queryString>
+		<field name="c" class="java.lang.Long"/>
 		<field name="fee" class="java.math.BigDecimal"/>
 		<field name="name" class="java.lang.String">
 			<fieldDescription><![CDATA[租户名称]]></fieldDescription>
@@ -423,7 +427,7 @@ ORDER BY d.id]]>
 					</crosstabTotalColumnHeader>
 				</columnGroup>
 				<measure name="feeMeasure" class="java.math.BigDecimal" calculation="Sum">
-					<measureExpression><![CDATA[$F{fee}]]></measureExpression>
+					<measureExpression><![CDATA[$F{fee}?: 0 ]]></measureExpression>
 				</measure>
 				<crosstabCell width="188" height="40">
 					<cellContents>
