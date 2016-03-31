@@ -168,6 +168,7 @@
 		<parameter name="dId" class="java.lang.Long"/>
 		<parameter name="sDate" class="java.lang.String"/>
 		<parameter name="eDate" class="java.lang.String"/>
+		<parameter name="tlist" class="java.lang.String"/>
 		<queryString>
 			<![CDATA[select SUM(o.total_fee)  as fee, t.`name` as name , d.`name` as dName
 from pay_order as o ,
@@ -177,6 +178,7 @@ where o.status='SUCCESS'
 and d.id = $P{dId}
 and t.department_id = d.id
 AND o.tenant_id = t.id
+and t.id IN ($P!{tlist})
 AND DATEDIFF(DATE_FORMAT(o.time_end,'%Y-%m-%d'), $P{sDate}) >= 0
 AND DATEDIFF(DATE_FORMAT(o.time_end,'%Y-%m-%d'), $P{eDate}) <= 0
 GROUP BY t.id
@@ -192,12 +194,16 @@ ORDER BY t.code]]>
 	<subDataset name="sumDataset" uuid="45b38015-0c3c-4a06-8942-c068911edea7">
 		<parameter name="sDate" class="java.lang.String"/>
 		<parameter name="eDate" class="java.lang.String"/>
+		<parameter name="tlist" class="java.lang.String"/>
 		<queryString>
 			<![CDATA[select SUM(o.total_fee)  as sumFee
-from pay_order as o
+from pay_order as o,
+tenant as t
 where o.status='SUCCESS'
+AND o.tenant_id = t.id
 AND DATEDIFF(DATE_FORMAT(o.time_end,'%Y-%m-%d'), $P{sDate}) >= 0
-AND DATEDIFF(DATE_FORMAT(o.time_end,'%Y-%m-%d'), $P{eDate}) <= 0]]>
+AND DATEDIFF(DATE_FORMAT(o.time_end,'%Y-%m-%d'), $P{eDate}) <= 0
+AND t.id IN ($P!{tlist})]]>
 		</queryString>
 		<field name="sumFee" class="java.math.BigDecimal"/>
 	</subDataset>
@@ -205,6 +211,9 @@ AND DATEDIFF(DATE_FORMAT(o.time_end,'%Y-%m-%d'), $P{eDate}) <= 0]]>
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="endDate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tList" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -217,7 +226,9 @@ AND t.department_id = d.id
 and o.`status`='SUCCESS'
 AND DATEDIFF(DATE_FORMAT(o.time_end,'%Y-%m-%d'), $P{startDate}) >= 0
 AND DATEDIFF(DATE_FORMAT(o.time_end,'%Y-%m-%d'), $P{endDate}) <= 0
-GROUP BY d.id]]>
+AND t.id IN ($P!{tList})
+GROUP BY d.id
+ORDER BY d.id]]>
 	</queryString>
 	<field name="id" class="java.lang.Long">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -330,6 +341,9 @@ GROUP BY d.id]]>
 							</datasetParameter>
 							<datasetParameter name="eDate">
 								<datasetParameterExpression><![CDATA[$P{endDate}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="tlist">
+								<datasetParameterExpression><![CDATA[$P{tList}]]></datasetParameterExpression>
 							</datasetParameter>
 						</datasetRun>
 					</dataset>
@@ -487,12 +501,15 @@ GROUP BY d.id]]>
 			<componentElement>
 				<reportElement key="table 7" x="208" y="0" width="320" height="55" uuid="f585f672-e2ea-4682-9eeb-3352e849228e"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="sumDataset" uuid="c22175c5-e612-48f2-b2bb-e19cdaeffe7d">
+					<datasetRun subDataset="sumDataset" uuid="b075f67c-021f-4864-9068-a948406cac6f">
 						<datasetParameter name="sDate">
 							<datasetParameterExpression><![CDATA[$P{startDate}]]></datasetParameterExpression>
 						</datasetParameter>
 						<datasetParameter name="eDate">
 							<datasetParameterExpression><![CDATA[$P{endDate}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="tlist">
+							<datasetParameterExpression><![CDATA[$P{tList}]]></datasetParameterExpression>
 						</datasetParameter>
 					</datasetRun>
 					<jr:column width="320" uuid="ddfbbb90-5e9c-4b38-ad1a-99491c2d299a">
