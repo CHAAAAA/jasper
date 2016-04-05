@@ -357,7 +357,7 @@ ORDER BY d.id]]>
 							<box>
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
-							<textField isStretchWithOverflow="true">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="147" height="40" uuid="1a28ff3f-c4da-4379-951b-18fe41b01528"/>
 								<textElement verticalAlignment="Middle">
 									<font fontName="华文细黑" size="12" isBold="true"/>
@@ -390,7 +390,7 @@ ORDER BY d.id]]>
 							<box>
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
-							<textField isStretchWithOverflow="true">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="163" height="40" uuid="38d56d16-4e20-4ee3-9ee8-292a54c635c2"/>
 								<textElement verticalAlignment="Middle">
 									<font fontName="华文细黑" size="12"/>
@@ -430,7 +430,7 @@ ORDER BY d.id]]>
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
-						<textField isStretchWithOverflow="true" pattern="¤ #,##0.00">
+						<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true">
 							<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="178" height="40" uuid="2707f176-ccbe-4a94-bbb9-e72f90089055"/>
 							<textElement textAlignment="Right" verticalAlignment="Middle">
 								<font fontName="华文细黑" size="12"/>
@@ -496,8 +496,65 @@ ORDER BY d.id]]>
 			</crosstab>
 		</band>
 	</detail>
-	<columnFooter>
+	<pageFooter>
+		<band height="100">
+			<staticText>
+				<reportElement x="364" y="29" width="164" height="20" uuid="80a482cd-cf4a-4848-a5f7-15067bda36f2"/>
+				<textElement>
+					<font fontName="华文细黑" size="12"/>
+				</textElement>
+				<text><![CDATA[北京理工大学网络服务中心制]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="326" y="49" width="164" height="20" uuid="0272ab57-fa53-4a5d-9a95-7f4160dab2bd"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="华文细黑" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy年MM月dd日").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
 		<band height="55">
+			<staticText>
+				<reportElement x="30" y="0" width="89" height="55" uuid="aaa890c7-d442-46a3-9c16-a3801ad12634"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="华文细黑" size="18"/>
+				</textElement>
+				<text><![CDATA[总计：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="119" y="28" width="89" height="27" uuid="69ccdec9-dcbb-4516-88b6-1c0a7705d400"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="华文细黑" size="14"/>
+				</textElement>
+				<text><![CDATA[大写：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="119" y="0" width="89" height="28" uuid="e2a7a0d4-5c52-469f-8b13-44960faaabe0"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="华文细黑" size="14"/>
+				</textElement>
+				<text><![CDATA[小写：]]></text>
+			</staticText>
 			<componentElement>
 				<reportElement key="table 7" x="208" y="0" width="320" height="55" uuid="f585f672-e2ea-4682-9eeb-3352e849228e"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
@@ -522,7 +579,7 @@ ORDER BY d.id]]>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="华文细黑" size="14"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($F{sumFee} ? $F{sumFee}.divide(100.0) : 0.00)]]></textFieldExpression>
+								<textFieldExpression><![CDATA[( $F{sumFee} ? $F{sumFee}.divide(100.0) : 0.00 )]]></textFieldExpression>
 							</textField>
 							<textField isStretchWithOverflow="true">
 								<reportElement x="0" y="28" width="320" height="27" uuid="e17a6d8b-2cbd-4227-8f89-99d9f12245cf"/>
@@ -535,63 +592,6 @@ ORDER BY d.id]]>
 					</jr:column>
 				</jr:table>
 			</componentElement>
-			<staticText>
-				<reportElement x="30" y="0" width="89" height="55" uuid="aaa890c7-d442-46a3-9c16-a3801ad12634"/>
-				<box>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="华文细黑" size="18"/>
-				</textElement>
-				<text><![CDATA[总计：]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="119" y="0" width="89" height="28" uuid="e2a7a0d4-5c52-469f-8b13-44960faaabe0"/>
-				<box>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="华文细黑" size="14"/>
-				</textElement>
-				<text><![CDATA[小写：]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="119" y="28" width="89" height="27" uuid="69ccdec9-dcbb-4516-88b6-1c0a7705d400"/>
-				<box>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="华文细黑" size="14"/>
-				</textElement>
-				<text><![CDATA[大写：]]></text>
-			</staticText>
 		</band>
-	</columnFooter>
-	<pageFooter>
-		<band height="100">
-			<staticText>
-				<reportElement x="364" y="29" width="164" height="20" uuid="80a482cd-cf4a-4848-a5f7-15067bda36f2"/>
-				<textElement>
-					<font fontName="华文细黑" size="12"/>
-				</textElement>
-				<text><![CDATA[北京理工大学网络服务中心制]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="326" y="49" width="164" height="20" uuid="0272ab57-fa53-4a5d-9a95-7f4160dab2bd"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="华文细黑" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy年MM月dd日").format(new java.util.Date())]]></textFieldExpression>
-			</textField>
-		</band>
-	</pageFooter>
+	</summary>
 </jasperReport>
