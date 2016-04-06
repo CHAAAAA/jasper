@@ -262,11 +262,11 @@ ORDER BY d.id]]>
 				<text><![CDATA[日期范围：]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="177" y="101" width="110" height="34" uuid="879d3541-e229-4d5d-9507-73aa6fccc52f"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<reportElement x="145" y="101" width="142" height="34" uuid="879d3541-e229-4d5d-9507-73aa6fccc52f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="华文细黑" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{startDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{startDate} + " 00:00:00"]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="287" y="101" width="53" height="34" uuid="f1f53d45-fc95-4223-8b50-0dc20fad99b3"/>
@@ -283,7 +283,7 @@ ORDER BY d.id]]>
 				<textElement verticalAlignment="Middle">
 					<font fontName="华文细黑" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{endDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{endDate} + " 23:59:59"]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="30" y="135" width="147" height="32" uuid="ec0a980f-ec97-403f-8998-64eaf9e5b14d"/>
@@ -506,11 +506,11 @@ ORDER BY d.id]]>
 				<text><![CDATA[北京理工大学网络服务中心制]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="326" y="49" width="164" height="20" uuid="0272ab57-fa53-4a5d-9a95-7f4160dab2bd"/>
+				<reportElement x="326" y="62" width="202" height="20" uuid="0272ab57-fa53-4a5d-9a95-7f4160dab2bd"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="华文细黑" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy年MM月dd日").format(new java.util.Date())]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒").format(new java.util.Date())]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>
